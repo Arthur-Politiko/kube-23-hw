@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-service
+  namespace: task3
+spec:
+  type: ClusterIP
+  # clusterIP: None
+  selector:
+    app: web-app
+  ports:
+    - name: web
+      port: 80
+      targetPort: 80

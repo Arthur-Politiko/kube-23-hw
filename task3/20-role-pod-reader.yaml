@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: other-role
+  namespace: task3
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services"]
+    verbs: ["get", "list", "watch", "update"]
+# subjects:
+# - kind: ServiceAccount
+#   name: task3-sa
+#   namespace: task3

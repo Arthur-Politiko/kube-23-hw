@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map-web
+  namespace: task2
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+    }
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Страница из config-map-web</title> 
+    </head>
+    <body>
+      <h1>Привет от Kubernubers!</h1> 
+    </body>
+    </html>

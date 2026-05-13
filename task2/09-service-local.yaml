@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-service
+  namespace: task2
+spec:
+  type: ClusterIP
+  # clusterIP: None
+  selector:
+    app: web-service
+  ports:
+    - name: http-web
+      port: 80
+      targetPort: 80
+    - name: http-tls
+      port: 443
+      targetPort: 443

@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: task1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+
+  template:
+    metadata:
+      labels:
+        app: web-app
+        namespace: task1
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+        - name: nginx-content
+          mountPath: /usr/share/nginx/html
+          readOnly: true
+
+      - name: dev
+        image: wbitt/network-multitool:latest
+        ports:
+        - containerPort: 8080
+        env:                           
+          - name: HTTP_PORT
+            value: "8080"              # tune multitool to listen on 8080
+          # - name: HTTPS_PORT
+          #   value: "8443"              #  HTTPS
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: config-map-web
+          items:
+          - key: default.conf
+            path: default.conf
+      - name: nginx-content
+        configMap:
+          name: config-map-web
+          items:
+          - key: index.html
+            path: index.html            
